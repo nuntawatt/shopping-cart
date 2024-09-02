@@ -1,4 +1,6 @@
-import { Card, CardContent, CardMedia, Typography, Button, Stack } from "@mui/material";
+import { Card, CardContent, CardMedia, IconButton, Stack, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import React, { useState } from "react";
 
 interface ItemCartProps {
@@ -25,32 +27,33 @@ const ItemCart: React.FC<ItemCartProps> = ({ itemname, itemPrice, image, handleI
   };
 
   return (
-    <Card sx={{ display: 'flex', mb: 2 }}>
+    <Card sx={{ display: 'flex', mb: 2, boxShadow: 3, borderRadius: 2 }}>
       <CardMedia
         component="img"
-        sx={{ width: 151 }}
+        sx={{ width: 151, borderRadius: '4px 0 0 4px', objectFit: 'cover' }}
         image={image}
         alt={itemname}
       />
       <Stack direction="row" spacing={2} sx={{ flexGrow: 1, alignItems: 'center', justifyContent: 'space-between', p: 2 }}>
-        <CardContent>
-          <Typography component="div" variant="h5">
+        <CardContent sx={{ flex: '1' }}>
+          <Typography variant="h6" component="div" sx={{ mb: 1 }}>
             {itemname}
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="div">
             {itemPrice.toLocaleString()} THB
           </Typography>
-          <Typography variant="body1" color="text.primary" component="div">
-            Quantity: {quantity}
-          </Typography>
         </CardContent>
-        <Stack direction="row" spacing={1}>
-          <Button variant="contained" color="primary" onClick={incrementQuantity}>
-            +
-          </Button>
-          <Button variant="contained" color="secondary" onClick={decrementQuantity}>
-            -
-          </Button>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <IconButton size="small" color="secondary" onClick={decrementQuantity} disabled={quantity === 0}>
+            <RemoveIcon fontSize="small" />
+          </IconButton>
+          <Typography variant="body2">{quantity}</Typography>
+          <IconButton size="small" color="primary" onClick={incrementQuantity}>
+            <AddIcon fontSize="small" />
+          </IconButton>
+          <Typography variant="body2" sx={{ ml: 1 }}>
+            {(quantity * itemPrice).toLocaleString()} THB
+          </Typography>
         </Stack>
       </Stack>
     </Card>
