@@ -1,18 +1,19 @@
 "use client";
 
-import { Stack, Typography } from "@mui/material";
+import { Grid, Stack, Typography, useTheme } from "@mui/material";
 import React from "react";
 import ItemCart from "./item-cart";
 
 export default function Home() {
   const [total, setTotal] = React.useState(0);
+  const theme = useTheme(); 
 
   const handleIncremental = (itemPrice: number) => {
-    setTotal(prevTotal => prevTotal + itemPrice);
+    setTotal((prevTotal) => prevTotal + itemPrice);
   };
 
   const handleDecremental = (itemPrice: number) => {
-    setTotal(prevTotal => Math.max(prevTotal - itemPrice, 0));
+    setTotal((prevTotal) => Math.max(prevTotal - itemPrice, 0));
   };
 
   const myItems = [
@@ -31,22 +32,30 @@ export default function Home() {
   ];
 
   return (
-    <div>
-      <h1>Shopping Cart</h1>
-      {myItems &&
-        myItems.map((item) => (
-          <ItemCart
-            key={item.itemname}
-            itemname={item.itemname}
-            itemPrice={item.price}
-            image={item.image}
-            handleIncremantal={() => handleIncremental(item.price)}
-            handleDecremental={() => handleDecremental(item.price)}
-          />
+    <div style={{ backgroundColor: theme.palette.background.default, padding: '20px', minHeight: '100vh' }}>
+      <Typography variant="h4" gutterBottom sx={{ mb: 3, fontWeight: 'bold', textAlign: 'center' }}>
+        Shopping Cart
+      </Typography>
+      <Grid container spacing={4}>
+        {myItems.map((item) => (
+          <Grid item xs={12} sm={6} md={4} key={item.itemname}>
+            <ItemCart
+              itemname={item.itemname}
+              itemPrice={item.price}
+              image={item.image}
+              handleIncremantal={() => handleIncremental(item.price)}
+              handleDecremental={() => handleDecremental(item.price)}
+            />
+          </Grid>
         ))}
-      <Stack direction="row" spacing={2}>
-        <Typography variant="h4">Total</Typography>
-        <Typography variant="h4">{total.toLocaleString()} THB</Typography>
+      </Grid>
+      <Stack direction="row" justifyContent="center" spacing={2} sx={{ mt: 4 }}>
+        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+          Total
+        </Typography>
+        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+          {total.toLocaleString()} THB
+        </Typography>
       </Stack>
     </div>
   );

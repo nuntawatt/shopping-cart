@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, IconButton, Stack, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, IconButton, Stack, Typography, Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import React, { useState } from "react";
@@ -27,35 +27,50 @@ const ItemCart: React.FC<ItemCartProps> = ({ itemname, itemPrice, image, handleI
   };
 
   return (
-    <Card sx={{ display: 'flex', mb: 2, boxShadow: 3, borderRadius: 2 }}>
+    <Card className="item-cart-card">
       <CardMedia
         component="img"
-        sx={{ width: 151, borderRadius: '4px 0 0 4px', objectFit: 'cover' }}
+        className="item-cart-media"
         image={image}
         alt={itemname}
       />
-      <Stack direction="row" spacing={2} sx={{ flexGrow: 1, alignItems: 'center', justifyContent: 'space-between', p: 2 }}>
-        <CardContent sx={{ flex: '1' }}>
-          <Typography variant="h6" component="div" sx={{ mb: 1 }}>
+      <Box className="item-cart-box">
+        <CardContent className="item-cart-content">
+          <Typography variant="h6" component="div" className="item-cart-name">
             {itemname}
           </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
+          <Typography variant="subtitle1" color="text.secondary" component="div" className="item-cart-price">
             {itemPrice.toLocaleString()} THB
           </Typography>
         </CardContent>
         <Stack direction="row" spacing={1} alignItems="center">
-          <IconButton size="small" color="secondary" onClick={decrementQuantity} disabled={quantity === 0}>
+          <IconButton
+            size="small"
+            color="secondary"
+            onClick={decrementQuantity}
+            disabled={quantity === 0}
+            aria-label={`Decrease quantity of ${itemname}`}
+            className="item-cart-buttons"
+          >
             <RemoveIcon fontSize="small" />
           </IconButton>
-          <Typography variant="body2">{quantity}</Typography>
-          <IconButton size="small" color="primary" onClick={incrementQuantity}>
+          <Typography variant="body2" className="item-cart-quantity">
+            {quantity}
+          </Typography>
+          <IconButton
+            size="small"
+            color="primary"
+            onClick={incrementQuantity}
+            aria-label={`Increase quantity of ${itemname}`}
+            className="item-cart-buttons"
+          >
             <AddIcon fontSize="small" />
           </IconButton>
-          <Typography variant="body2" sx={{ ml: 1 }}>
+          <Typography variant="body2" className="item-cart-total">
             {(quantity * itemPrice).toLocaleString()} THB
           </Typography>
         </Stack>
-      </Stack>
+      </Box>
     </Card>
   );
 };
