@@ -11,7 +11,13 @@ interface ItemCartProps {
   handleDecremental: (itemPrice: number) => void;
 }
 
-const ItemCart: React.FC<ItemCartProps> = ({ itemname, itemPrice, image, handleIncremantal, handleDecremental }) => {
+const ItemCart: React.FC<ItemCartProps> = ({
+  itemname,
+  itemPrice,
+  image,
+  handleIncremantal,
+  handleDecremental,
+}) => {
   const [quantity, setQuantity] = useState(0);
 
   const incrementQuantity = () => {
@@ -27,46 +33,119 @@ const ItemCart: React.FC<ItemCartProps> = ({ itemname, itemPrice, image, handleI
   };
 
   return (
-    <Card className="item-cart-card">
+    <Card
+      sx={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        mb: 4,
+        boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)',
+        borderRadius: '15px',
+        overflow: 'hidden',
+        transition: 'transform 0.3s ease',
+        '&:hover': {
+          transform: 'scale(1.03)',
+        },
+      }}
+    >
       <CardMedia
         component="img"
-        className="item-cart-media"
+        sx={{
+          height: 150,  // Reduced height
+          width: 'auto',
+          objectFit: 'cover',
+          margin: '0 auto', // Centering the image
+        }}
         image={image}
         alt={itemname}
       />
-      <Box className="item-cart-box">
-        <CardContent className="item-cart-content">
-          <Typography variant="h6" component="div" className="item-cart-name">
+      <Box
+        sx={{
+          flexGrow: 1,
+          p: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        <CardContent sx={{ flex: '1 0 auto', textAlign: 'center' }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              mb: 1,
+              color: '#333',
+              fontWeight: 'bold',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+            }}
+          >
             {itemname}
           </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div" className="item-cart-price">
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            component="div"
+            sx={{
+              color: '#777',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+            }}
+          >
             {itemPrice.toLocaleString()} THB
           </Typography>
         </CardContent>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <IconButton
-            size="small"
-            color="secondary"
-            onClick={decrementQuantity}
-            disabled={quantity === 0}
-            aria-label={`Decrease quantity of ${itemname}`}
-            className="item-cart-buttons"
+        <Stack direction="column" spacing={1} justifyContent="center" alignItems="center">
+          <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+            <IconButton
+              size="small"
+              color="secondary"
+              onClick={decrementQuantity}
+              disabled={quantity === 0}
+              aria-label={`Decrease quantity of ${itemname}`}
+              sx={{
+                boxShadow: '0 5px 10px rgba(0, 0, 0, 0.1)',
+                backgroundColor: '#f5f7fa',
+                '&:hover': {
+                  backgroundColor: '#f5f5f5',
+                },
+              }}
+            >
+              <RemoveIcon fontSize="small" />
+            </IconButton>
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: 'bold',
+                color: '#333',
+                minWidth: '30px',
+                textAlign: 'center',
+              }}
+            >
+              {quantity}
+            </Typography>
+            <IconButton
+              size="small"
+              color="primary"
+              onClick={incrementQuantity}
+              aria-label={`Increase quantity of ${itemname}`}
+              sx={{
+                boxShadow: '0 5px 10px rgba(0, 0, 0, 0.1)',
+                backgroundColor: '#f5f7fa',
+                '&:hover': {
+                  backgroundColor: '#f5f5f5',
+                },
+              }}
+            >
+              <AddIcon fontSize="small" />
+            </IconButton>
+          </Stack>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 'bold',
+              color: '#333',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+            }}
           >
-            <RemoveIcon fontSize="small" />
-          </IconButton>
-          <Typography variant="body2" className="item-cart-quantity">
-            {quantity}
-          </Typography>
-          <IconButton
-            size="small"
-            color="primary"
-            onClick={incrementQuantity}
-            aria-label={`Increase quantity of ${itemname}`}
-            className="item-cart-buttons"
-          >
-            <AddIcon fontSize="small" />
-          </IconButton>
-          <Typography variant="body2" className="item-cart-total">
             {(quantity * itemPrice).toLocaleString()} THB
           </Typography>
         </Stack>
